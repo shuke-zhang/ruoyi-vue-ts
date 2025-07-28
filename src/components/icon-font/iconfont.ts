@@ -31,4 +31,4 @@ export type IconFontType = 'account-code' |
 'sound' |
 'time' |
 'user' |
-'zhipu';
+'zhipu'

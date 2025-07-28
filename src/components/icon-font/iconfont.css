@@ -1,143 +1,143 @@
 /* Generated IconType... */
 @font-face {
-  font-family: "iconfont"; 
+  font-family: 'iconfont';
   src: url('./iconfont.ttf?t=___') format('truetype');
 }
-  
+
 .iconfont {
-  font-family: "iconfont" !important;
+  font-family: 'iconfont' !important;
   text-decoration: none;
   text-align: center;
 }
 
 .icon-setup:before {
-  content: "\e656";
+  content: '\e656';
 }
 
 .icon-setting:before {
-  content: "\e699";
+  content: '\e699';
 }
 
 .icon-gongwei-gengxin:before {
-  content: "\e6dc";
+  content: '\e6dc';
 }
 
 .icon-clear:before {
-  content: "\e618";
+  content: '\e618';
 }
 
 .icon-mute:before {
-  content: "\ea0c";
+  content: '\ea0c';
 }
 
 .icon-copy:before {
-  content: "\ea32";
+  content: '\ea32';
 }
 
 .icon-recorder:before {
-  content: "\e610";
+  content: '\e610';
 }
 
 .icon-keyboard:before {
-  content: "\e6d8";
+  content: '\e6d8';
 }
 
 .icon-sound:before {
-  content: "\e64c";
+  content: '\e64c';
 }
 
 .icon-time:before {
-  content: "\e61e";
+  content: '\e61e';
 }
 
 .icon-record:before {
-  content: "\e62d";
+  content: '\e62d';
 }
 
 .icon-play:before {
-  content: "\e87c";
+  content: '\e87c';
 }
 
 .icon-camera:before {
-  content: "\e667";
+  content: '\e667';
 }
 
 .icon-questions:before {
-  content: "\e600";
+  content: '\e600';
 }
 
 .icon-jump:before {
-  content: "\e74d";
+  content: '\e74d';
 }
 
 .icon-account-code:before {
-  content: "\e636";
+  content: '\e636';
 }
 
 .icon-account-user:before {
-  content: "\e611";
+  content: '\e611';
 }
 
 .icon-account-phone:before {
-  content: "\e6cd";
+  content: '\e6cd';
 }
 
 .icon-account-lock:before {
-  content: "\e6cc";
+  content: '\e6cc';
 }
 
 .icon-fasong:before {
-  content: "\100bd";
+  content: '\100bd';
 }
 
 .icon-zhipu:before {
-  content: "\e60c";
+  content: '\e60c';
 }
 
 .icon-qwen:before {
-  content: "\e602";
+  content: '\e602';
 }
 
 .icon-deepseek:before {
-  content: "\e641";
+  content: '\e641';
 }
 
 .icon-doubao:before {
-  content: "\e7e0";
+  content: '\e7e0';
 }
 
 .icon-user:before {
-  content: "\e6c0";
+  content: '\e6c0';
 }
 
 .icon-close:before {
-  content: "\e609";
+  content: '\e609';
 }
 
 .icon-loop:before {
-  content: "\e66d";
+  content: '\e66d';
 }
 
 .icon-plus:before {
-  content: "\e61f";
+  content: '\e61f';
 }
 
 .icon-left:before {
-  content: "\e62b";
+  content: '\e62b';
 }
 
 .icon-right:before {
-  content: "\e62a";
+  content: '\e62a';
 }
 
 .icon-close1:before {
-  content: "\e630";
+  content: '\e630';
 }
 
 .icon-search:before {
-  content: "\e631";
+  content: '\e631';
 }
 
 .icon-edit:before {
-  content: "\e685";
+  content: '\e685';
 }

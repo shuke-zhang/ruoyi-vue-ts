@@ -12,8 +12,12 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
     "Attributify",
+    "chromeframe",
+    "encryptor",
     "eslintimport",
+    "jsencrypt",
     "Parens",
+    "perfix",
     "Pinia",
     "shuke",
     "tsbuildinfo",

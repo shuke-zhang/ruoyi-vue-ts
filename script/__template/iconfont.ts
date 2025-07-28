@@ -1,2 +1,2 @@
 // generated
-export type IconFontType = '/* [%- types %] */';
+export type IconFontType = '/* [%- types %] */'

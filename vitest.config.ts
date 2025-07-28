@@ -1,12 +1,13 @@
-import type { ConfigEnv } from 'vitest/config';
+import type { ConfigEnv } from 'vitest/config'
 
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from 'node:url'
 
-import viteConfig from './vite.config';
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config'
 
-import { mergeConfig, defineConfig, configDefaults } from 'vitest/config';
-const mode = process.env.NODE_ENV || 'development';
-const viteConfigResult = viteConfig({ mode } as ConfigEnv);
+import viteConfig from './vite.config'
+
+const mode = process.env.NODE_ENV || 'development'
+const viteConfigResult = viteConfig({ mode } as ConfigEnv)
 export default mergeConfig(
   viteConfigResult,
   defineConfig({
@@ -16,4 +17,4 @@ export default mergeConfig(
       root: fileURLToPath(new URL('./', import.meta.url)),
     },
   }),
-);
+)

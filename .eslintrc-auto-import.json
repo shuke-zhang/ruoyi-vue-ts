@@ -114,6 +114,11 @@
     "removeCacheToken": true,
     "setCacheToken": true,
     "useCounterStore": true,
-    "useUserStore": true
+    "useUserStore": true,
+    "getCache": true,
+    "removeCache": true,
+    "setCache": true,
+    "decrypt": true,
+    "encrypt": true
   }
 }

@@ -3,14 +3,14 @@
  */
 type DeepPartial<T> = T extends object
   ? { [P in keyof T]?: DeepPartial<T[P]> }
-  : T;
+  : T
 
 /**
  * 深层递归所有属性为只读
  */
 type DeepReadonly<T> = {
   readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
-};
+}
 
 /**
  * 任意类型的异步函数
@@ -18,34 +18,34 @@ type DeepReadonly<T> = {
 
 type AnyPromiseFunction<T extends any[] = any[], R = void> = (
   ...arg: T
-) => PromiseLike<R>;
+) => PromiseLike<R>
 
 /**
  * 任意类型的普通函数
  */
-type AnyNormalFunction<T extends any[] = any[], R = void> = (...arg: T) => R;
+type AnyNormalFunction<T extends any[] = any[], R = void> = (...arg: T) => R
 
 /**
  * 任意类型的函数
  */
-type AnyFunction<T extends any[] = any[], R = void> =
-  | AnyNormalFunction<T, R>
-  | AnyPromiseFunction<T, R>;
+type AnyFunction<T extends any[] = any[], R = void>
+  = | AnyNormalFunction<T, R>
+    | AnyPromiseFunction<T, R>
 
 /**
  *  T | null 包装
  */
-type Nullable<T> = null | T;
+type Nullable<T> = null | T
 
 /**
  * T | Not null 包装
  */
-type NonNullable<T> = T extends null | undefined ? never : T;
+type NonNullable<T> = T extends null | undefined ? never : T
 
 /**
  * 字符串类型对象
  */
-type Recordable<T> = Record<string, T>;
+type Recordable<T> = Record<string, T>
 
 /**
  * 字符串类型对象（只读）
@@ -57,28 +57,28 @@ interface ReadonlyRecordable<T = any> {
 /**
  * setTimeout 返回值类型
  */
-type TimeoutHandle = ReturnType<typeof setTimeout>;
+type TimeoutHandle = ReturnType<typeof setTimeout>
 
 /**
  * setInterval 返回值类型
  */
-type IntervalHandle = ReturnType<typeof setInterval>;
+type IntervalHandle = ReturnType<typeof setInterval>
 
 /**
  * 也许它是一个计算的 ref，或者一个 getter 函数
  *
  */
-type MaybeReadonlyRef<T> = (() => T) | ComputedRef<T>;
+type MaybeReadonlyRef<T> = (() => T) | ComputedRef<T>
 
 /**
  * 也许它是一个 ref，或者一个普通值，或者一个 getter 函数
  *
  */
-type MaybeComputedRef<T> = MaybeReadonlyRef<T> | MaybeRef<T>;
+type MaybeComputedRef<T> = MaybeReadonlyRef<T> | MaybeRef<T>
 
 type Merge<O extends object, T extends object> = {
   [K in keyof O | keyof T]: K extends keyof T ? T[K] : K extends keyof O ? O[K] : never;
-};
+}
 
 /**
  * T = [
@@ -97,8 +97,8 @@ type MergeAll<
   R extends object = Record<string, any>,
 > = T extends [infer F extends object, ...infer Rest extends object[]]
   ? MergeAll<Rest, Merge<R, F>>
-  : R;
+  : R
 
-type EmitType = (name: Name, ...args: any[]) => void;
+type EmitType = (name: Name, ...args: any[]) => void
 
-type MaybePromise<T> = Promise<T> | T;
+type MaybePromise<T> = Promise<T> | T

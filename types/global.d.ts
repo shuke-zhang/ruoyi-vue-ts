@@ -1,19 +1,19 @@
 /**
  * 是否开发模式
  */
-declare const __DEV__: boolean;
+declare const __DEV__: boolean
 /**
  * 项目标题
  */
-declare const APP_TITLE: string;
+declare const APP_TITLE: string
 /**
  * api地址
  */
-declare const APP_API_URL: string;
+declare const APP_API_URL: string
 /**
  * 静态资源地址
  */
-declare const APP_STATIC_URL: string;
+declare const APP_STATIC_URL: string
 
 /**
  * 函数
@@ -32,46 +32,46 @@ declare interface PromiseFn<P extends any[], T = any> {
  */
 type TreeItem<T, ChildrenKey extends string = 'children'> = T & {
   [K in ChildrenKey]?: TreeItem<T, ChildrenKey>[];
-};
+}
 /**
  * 树形列表
  */
-declare type TreeList<T> = TreeItem<T>[];
+declare type TreeList<T> = TreeItem<T>[]
 
 /**
  * @deprecated
  */
-declare type Nullable<T> = T | null;
+declare type Nullable<T> = T | null
 
 /**
  * maybe 数组
  */
-declare type Arrayable<T> = T | T[];
+declare type Arrayable<T> = T | T[]
 
 /**
  * maybe Promise
  */
-declare type Awaitable<T> = Promise<T> | T;
+declare type Awaitable<T> = Promise<T> | T
 
 /**
  * maybe Function
  */
-declare type Functionable<T> = () => T | T;
+declare type Functionable<T> = () => T | T
 
 /**
  * vue emit
  */
-declare type EmitType = (event: string, ...args: any[]) => void;
+declare type EmitType = (event: string, ...args: any[]) => void
 
 /**
  * @deprecated use NodeJS.Timeout
  */
-declare type IntervalHandle = ReturnType<typeof setInterval>;
+declare type IntervalHandle = ReturnType<typeof setInterval>
 
 /**
  * @deprecated use NodeJS.Timeout
  */
-declare type TimeoutHandle = ReturnType<typeof setTimeout>;
+declare type TimeoutHandle = ReturnType<typeof setTimeout>
 
 /**
  * 任意对象 请使用 object
@@ -82,4 +82,4 @@ declare interface AnyObject {
 /**
  * 数值
  */
-declare type numeric = number | string;
+declare type numeric = number | string

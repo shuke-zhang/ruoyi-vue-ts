@@ -1,118 +1,236 @@
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus';
-import { getCodeImg } from '@/api/login';
+import type { LoginFormModel } from '@/model/login'
+import { getCodeImg } from '@/api/login'
 
-const router = useRouter();
-const codeForm = ref({
-  img: '',
+const title = import.meta.env.VITE_APP_TITLE
+const userStore = useUserStore()
+const router = useRouter()
+const route = useRoute()
+const _test = ref('')
+
+const loginRef = useTemplateRef('loginFormRef')
+const loginForm = ref<LoginFormModel>({
+  username: 'admin',
+  password: 'admin123',
+  rememberMe: false,
   code: '',
   uuid: '',
-});
-const form = ref({
-  username: __DEV__ ? 'vben' : '',
-  password: __DEV__ ? '123456' : '',
-  captcha: true,
-  selectAccount: 'vben',
-});
-const userStore = useUserStore();
-const loading = ref(false);
-const formRef = ref<FormInstance>();
+})
+
+const loginRules = {
+  username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
+  password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }],
+  code: [{ required: true, trigger: 'change', message: '请输入验证码' }],
+}
+const codeUrl = ref('data:image/gif;base64,')
+const loading = ref(false)
+/** 是否启用验证码开关 */
+const captchaEnabled = ref(true)
+/** 注册开关 */
+const register = ref(false)
+const redirect = ref<string | undefined>(undefined)
+
 /**
  * 获取验证码
  */
-function handleGetCodeImg() {
-  return getCodeImg().then((res) => {
-    codeForm.value = {
-      img: res.img,
-      uuid: res.uuid,
-      code: '',
-    };
-  });
+function getCode() {
+  getCodeImg().then((res) => {
+    captchaEnabled.value
+      = res.captchaEnabled === undefined ? true : res.captchaEnabled
+    if (captchaEnabled.value) {
+      codeUrl.value = `data:image/gif;base64,${res.img}`
+      loginForm.value.uuid = res.uuid
+    }
+  })
 }
+
 /**
- * 登录
+ * 登录方法
  */
 function handleLogin() {
-  formRef.value?.validate().then(() => {
-    loading.value = true;
-    userStore
-      .login({
-        username: form.value.username,
-        password: form.value.password,
-        code: codeForm.value.code,
-        uuid: codeForm.value.uuid,
-      })
-      .then(() => {
-        console.log('登录成功');
+  loginRef.value?.validate((valid) => {
+    if (valid) {
+      console.log('验证通过')
+      loading.value = true
+      if (loginForm.value.rememberMe) {
+        const data = {
+          username: loginForm.value.username,
+          password: encrypt(loginForm.value.password),
+          rememberMe: loginForm.value.rememberMe,
+        }
+        setCache('LOGIN_INFO', data, { day: 2 })
+      }
+      else {
+        removeCache('LOGIN_INFO')
+      }
 
-        router.replace('/');
-      })
-      .finally(() => {
-        loading.value = false;
-      });
-  });
+      userStore
+        .login(loginForm.value)
+        .then(() => {
+          const query = route.query
+          const otherQueryParams = Object.keys(query).reduce(
+            (acc: { [key: string]: any }, cur) => {
+              if (cur !== 'redirect') {
+                acc[cur] = query[cur]
+              }
+              return acc
+            },
+            {},
+          )
+          router.push({ path: redirect.value || '/', query: otherQueryParams })
+          console.log('登录成功')
+        })
+        .catch(() => {
+          loading.value = false
+          // 重新获取验证码
+          if (captchaEnabled.value) {
+            getCode()
+          }
+        })
+    }
+  })
 }
+
+/**
+ * 通过缓存来获取数据
+ */
+function getCatchForm() {
+  const { username, password, rememberMe, status } = getCache<LoginFormModel>('LOGIN_INFO')
+  console.log(status, 'status缓存状态')
+
+  if (status === 'expired') {
+    ElMessage.warning('登录信息已过期，请重新输入')
+    return
+  }
+  loginForm.value = {
+    username: username === undefined ? loginForm.value.username : username,
+    password:
+      password === undefined ? loginForm.value.password : decrypt(password),
+    rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
+  }
+}
+
+watch(
+  route,
+  (newRoute) => {
+    redirect.value = newRoute.query && (newRoute.query.redirect as string)
+  },
+  { immediate: true },
+)
+
 onMounted(() => {
-  handleGetCodeImg();
-});
+  getCode()
+  getCatchForm()
+})
 </script>
 
 <template>
-  <div class="h-[100vh] flex justify-center items-center flex-direction-column login-page">
-    <el-card :body-style="{ padding: '40px' }" class="card">
-      <div class="login ">
-        <el-form ref="formRef" :model="form">
-          <el-form-item prop="username" :rules="[{ required: true, message: '用户名不能为空' }]">
-            <el-input
-              v-model="form.username"
-              type="text"
-              placeholder="用户名"
-              @keydown.enter="handleLogin"
+  <div class="login-container flex justify-center items-center h-full bg-cover">
+    <el-form
+      ref="loginFormRef"
+      :model="loginForm"
+      :rules="loginRules"
+      class="z-[1] w-[400px] rounded-[6px] bg-white px-[25px] pt-[25px] pb-[5px]"
+    >
+      <h3 class="text-[#707070] mx-auto mb-[30px] text-center">
+        {{ title }}
+      </h3>
+      <el-form-item prop="username">
+        <el-input
+          v-model="loginForm.username"
+          type="text"
+          size="large"
+          auto-complete="off"
+          placeholder="账号"
+        >
+          <template #prefix>
+            <icon-font name="user" class="el-input__icon input-icon" />
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          size="large"
+          auto-complete="off"
+          placeholder="密码"
+          @keyup.enter="handleLogin"
+        >
+          <template #prefix>
+            <icon-font name="account-lock" class="el-input__icon input-icon" />
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item
+        v-if="captchaEnabled"
+        prop="code"
+      >
+        <div class="w-full flex justify-between">
+          <el-input
+            v-model="loginForm.code"
+            size="large"
+            auto-complete="off"
+            placeholder="验证码"
+            style="width: 65%"
+            @keyup.enter="handleLogin"
+          >
+            <template #prefix>
+              <icon-font
+                name="setting"
+                class="el-input__icon input-icon"
+              />
+            </template>
+          </el-input>
+          <div class="w-[33%] h-[40px] float-right">
+            <img
+              :src="codeUrl"
+              class="cursor-pointer align-middle h-[40px] pl-[12px]"
+              @click="getCode"
             >
-              <template #prefix>
-                <icon-font name="user" size="16" />
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              v-model="form.password"
-              type="password"
-              placeholder="密码"
-              show-password
-              @keydown.enter="handleLogin"
-            >
-              <template #prefix>
-                <icon-font name="account-lock" size="16" />
-              </template>
-            </el-input>
-          </el-form-item>
-
-          <el-button :loading="loading" type="primary" style="display: block;width: 100%" @click="handleLogin">
-            {{ !loading ? '登录' : '登录中...' }}
-          </el-button>
-        </el-form>
-      </div>
-    </el-card>
+          </div>
+        </div>
+      </el-form-item>
+      <el-checkbox
+        v-model="loginForm.rememberMe"
+        style="margin: 0px 0px 25px 0px"
+      >
+        记住密码
+      </el-checkbox>
+      <el-form-item style="width: 100%">
+        <el-button
+          :loading="loading"
+          size="large"
+          type="primary"
+          style="width: 100%"
+          @click.prevent="handleLogin"
+        >
+          <span v-if="!loading">登 录</span>
+          <span v-else>登 录 中...</span>
+        </el-button>
+        <div v-if="register" class="w-full flex justify-end ">
+          <router-link class="text-[#337ab7] hover:text-[rgb(32,160,255)] cursor-pointer focus:text-[#337ab7]" to="/register">
+            立即注册
+          </router-link>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin: 0;
+.login-container {
+  background-image: url('../assets/images/login-background.jpg');
 }
-
-.card {
-  border-radius: 18px;
+.el-input {
+  height: 40px;
+  input {
+    height: 40px;
+  }
 }
-
-.login {
-  // width: 300px;
-  padding: 20px 0;
-  border: 1rpx solid red;
-}
-
-.login-page {
-  background: linear-gradient(135deg, #f3eaff 0%, #e6f0ff 100%);
+.input-icon {
+  height: 39px;
+  width: 14px;
+  margin-left: 0px;
 }
 </style>

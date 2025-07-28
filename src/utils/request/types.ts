@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig } from 'axios'
 
 export interface UserCustomConfig {
   /**
@@ -40,4 +40,4 @@ export type ResponseResult<T extends object = object> = {
   status: number
   msg: string
   message: string
-} & T;
+} & T

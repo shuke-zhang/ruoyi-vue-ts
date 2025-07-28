@@ -1,30 +1,30 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'node:fs'
+import path from 'node:path'
 
-import chokidar from 'chokidar';
-import ejs from 'ejs';
+import chokidar from 'chokidar'
+import ejs from 'ejs'
 
 type DebounceFunction = <T extends (...args: any[]) => any>(
   func: T,
   delay?: number
-) => (...args: Parameters<T>) => void;
+) => (...args: Parameters<T>) => void
 
 export const debounce: DebounceFunction = (func, delay = 1000) => {
-  let timer: NodeJS.Timeout;
+  let timer: NodeJS.Timeout
 
   return async (...args) => {
-    clearTimeout(timer);
+    clearTimeout(timer)
     return new Promise<void>((resolve) => {
       timer = setTimeout(async () => {
-        await func(...args);
-        resolve();
-      }, delay);
-    });
-  };
-};
+        await func(...args)
+        resolve()
+      }, delay)
+    })
+  }
+}
 
-const sourceDir = path.resolve(__dirname, '__iconfont');
-const targetDir = path.resolve(__dirname, '../src/components/icon-font/');
+const sourceDir = path.resolve(__dirname, '__iconfont')
+const targetDir = path.resolve(__dirname, '../src/components/icon-font/')
 
 const ignored = [
   /\/src\/iconfont\/demo_index\.html$/,
@@ -34,59 +34,59 @@ const ignored = [
   /\/src\/iconfont\/iconfont\.ttf$/,
   /\/src\/iconfont\/iconfont\.woff$/,
   /\/src\/iconfont\/iconfont\.woff2$/,
-];
+]
 
 function copyFile(sourceFile: string, targetFile: string): void {
   // 检查源文件是否存在
   if (!fs.existsSync(sourceFile)) {
-    throw new Error(`Source file "${sourceFile}" does not exist.`);
+    throw new Error(`Source file "${sourceFile}" does not exist.`)
   }
 
   // 读取源文件内容 (作为Buffer处理二进制文件)
-  const fileContent = fs.readFileSync(sourceFile);
+  const fileContent = fs.readFileSync(sourceFile)
 
   // 写入目标文件 (Buffer是Uint8Array的子类，满足ArrayBufferView要求)
-  fs.writeFileSync(targetFile, fileContent as unknown as Uint8Array);
+  fs.writeFileSync(targetFile, fileContent as unknown as Uint8Array)
 }
 
 const cssDelimiter = [
   '/* [',
   '] */',
-] as [string, string];
+] as [string, string]
 
 const jsDelimiter = [
   '\'/* [',
   '] */\'',
-] as [string, string];
+] as [string, string]
 
 function getEjsData() {
   const css = fs.readFileSync(
     path.resolve(__dirname, '__iconfont', 'iconfont.css'),
     'utf-8',
-  );
-  const index = css.indexOf('.icon-');
-  const content = css.slice(index, css.length - 1).replace(/\r?\n*$/, '');
+  )
+  const index = css.indexOf('.icon-')
+  const content = css.slice(index, css.length - 1).replace(/\r?\n*$/, '')
   // types
-  const json = fs.readFileSync(path.resolve(__dirname, '__iconfont', 'iconfont.json')).toString();
-  const typesObject = (JSON.parse(json).glyphs as { font_class: string }[]).map(e => `'${e.font_class}'`).sort();
-  const types = typesObject.join(' |\n').replace(/\r?\n*$/, '');
+  const json = fs.readFileSync(path.resolve(__dirname, '__iconfont', 'iconfont.json')).toString()
+  const typesObject = (JSON.parse(json).glyphs as { font_class: string }[]).map(e => `'${e.font_class}'`).sort()
+  const types = typesObject.join(' |\n').replace(/\r?\n*$/, '')
   const ejsData = {
     content,
     types,
-  };
+  }
 
-  return ejsData;
+  return ejsData
 }
 
 function getTemplateData(templateName: string, [openDelimiter, closeDelimiter]: [string, string] = cssDelimiter) {
-  const ejsData = getEjsData();
-  const _templatePath = path.resolve(__dirname, './__template', templateName);
-  const source = fs.readFileSync(_templatePath).toString();
+  const ejsData = getEjsData()
+  const _templatePath = path.resolve(__dirname, './__template', templateName)
+  const source = fs.readFileSync(_templatePath).toString()
   const template = ejs.compile(source, {
     openDelimiter,
     closeDelimiter,
-  });
-  return template(ejsData);
+  })
+  return template(ejsData)
 }
 
 async function copy() {
@@ -96,39 +96,39 @@ async function copy() {
       path.resolve(targetDir, 'iconfont.css'),
       getTemplateData('iconfont.css'),
       'utf-8',
-    );
+    )
 
     // types
     fs.writeFileSync(
       path.resolve(targetDir, 'iconfont.ts'),
       getTemplateData('iconfont.ts', jsDelimiter),
-    );
+    )
 
     // // 字体
 
     await copyFile(
       path.resolve(__dirname, '__iconfont', 'iconfont.js'),
       path.resolve(targetDir, 'iconfont.js'),
-    );
+    )
   }
   catch (error) {
-    console.error(`${error}`);
+    console.error(`${error}`)
   }
 }
 
 export function generatedIcons(isBuild: boolean) {
   if (isBuild)
-    return;
-  console.log('generatedIcons');
+    return
+  console.log('generatedIcons')
 
-  const handler = debounce(copy);
+  const handler = debounce(copy)
 
   const watcher = chokidar.watch(sourceDir, {
     ignored,
-  });
+  })
 
   watcher.on('all', async (type) => {
     if (type !== 'addDir' && type !== 'unlink' && type !== 'unlinkDir')
-      handler();
-  });
+      handler()
+  })
 }

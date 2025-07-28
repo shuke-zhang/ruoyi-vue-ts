@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { getCodeImg } from '@/api/login';
-import router from '@/router';
-import { removeAllPending } from '@/utils/request';
+import { getCodeImg } from '@/api/login'
+import router from '@/router'
+import { removeAllPending } from '@/utils/request'
 
-const codeImg = ref<string>('');
-const codeUUid = ref<string>('');
-const loading = ref(false);
+const codeImg = ref<string>('')
+const codeUUid = ref<string>('')
+const loading = ref(false)
 
 function handleGetCodeImg() {
   return getCodeImg().then((res) => {
-    codeImg.value = res.img;
-    codeUUid.value = res.uuid;
-  });
+    codeImg.value = res.img
+    codeUUid.value = res.uuid
+  })
 }
 
 async function handleMultiRequest() {
-  const count = 10;
-  const interval = 300;
+  const count = 10
+  const interval = 300
 
   for (let i = 0; i < count; i++) {
     // 每次立即触发请求，不 await
-    getCodeImg(true);
+    getCodeImg(true)
 
     // 等待 200ms 再触发下一次
-    await new Promise(resolve => setTimeout(resolve, interval));
+    await new Promise(resolve => setTimeout(resolve, interval))
   }
 }
 
 function handleCancelRequests() {
-  removeAllPending();
+  removeAllPending()
 }
 </script>
 
