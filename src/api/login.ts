@@ -1,5 +1,5 @@
 import type { CodeImgModel, LoginFormModel } from '@/model/login'
-import type { UserModel } from '@/model/user'
+import type { ResponseUserInfo, UserInfoModel } from '@/model/user'
 
 /** 请求验证码 */
 export function getCodeImg(ignoreRepeatRequest?: boolean) {
@@ -22,7 +22,7 @@ export function loginApi(data: LoginFormModel) {
 }
 /** 获取用户详细信息 */
 export function getUserInfo() {
-  return request.get<ResponseData<UserModel>>({
+  return request.get<ResponseUserInfo<UserInfoModel>>({
     url: '/getInfo',
   })
 }

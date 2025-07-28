@@ -119,6 +119,9 @@
     "removeCache": true,
     "setCache": true,
     "decrypt": true,
-    "encrypt": true
+    "encrypt": true,
+    "isHttp": true,
+    "isEmpty": true,
+    "ElNotification": true
   }
 }

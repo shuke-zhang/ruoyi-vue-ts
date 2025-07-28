@@ -18,6 +18,7 @@
     "jsencrypt",
     "Parens",
     "perfix",
+    "phonenumber",
     "Pinia",
     "shuke",
     "tsbuildinfo",

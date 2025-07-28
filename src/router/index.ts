@@ -18,6 +18,15 @@ const router = createRouter({
         hidden: true,
       },
     },
+    {
+      path: '/test',
+      name: 'Test',
+      component: () => import('../views/test/index.vue'),
+      meta: {
+        title: '测试',
+        hidden: true,
+      },
+    },
 
   ],
 })

@@ -1,7 +1,5 @@
 import type { ElMessageBoxOptions } from 'element-plus'
 
-import { ElMessageBox } from 'element-plus'
-
 type ConfirmType = Required<ElMessageBoxOptions>['type']
 type MessageOptionsSimple = Omit<ElMessageBoxOptions, 'type' | 'message' | 'title'>
 
