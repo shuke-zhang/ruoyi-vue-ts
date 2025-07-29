@@ -107,7 +107,7 @@ export const dynamicRoutes: DynamicRoutesModel[] = [
 ]
 
 // 公共路由
-export const constantRoutes = [
+export const constantRoutes: DynamicRoutesModel[] = [
   {
     path: '/redirect',
     component: Layout,

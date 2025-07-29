@@ -1,12 +1,13 @@
+import type { RouteConfigModel } from '@/model/menu'
+import type { UserInfoModel } from '@/model/user'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
+  const routes = ref<RouteConfigModel[]>([])
+  const userId = ref<UserInfoModel[] | null>(null)
 
-  return { count, doubleCount, increment }
+  return {
+    routes,
+    userId,
+  }
 })

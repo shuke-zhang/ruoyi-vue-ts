@@ -10,7 +10,18 @@ import router, { constantRoutes, dynamicRoutes } from '@/router'
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue')
 
-export const usePermissionStore = defineStore('permission', () => {
+export const usePermissionStore = defineStore('permission', (): {
+  routes: Ref<RouteConfigModel[]>
+  addRoutes: Ref<RouteConfigModel[]>
+  defaultRoutes: Ref<RouteConfigModel[]>
+  topbarRouters: Ref<RouteConfigModel[]>
+  sidebarRouters: Ref<RouteConfigModel[]>
+  setRoutes: (routes: RouteConfigModel[]) => void
+  setDefaultRoutes: (routes: RouteConfigModel[]) => void
+  setTopbarRoutes: (routes: RouteConfigModel[]) => void
+  setSidebarRouters: (routes: RouteConfigModel[]) => void
+  generateRoutes: () => Promise<RouteConfigModel[]>
+} => {
   /** 最终合成的路由 */
   const routes = ref<RouteConfigModel[]>([])
   const addRoutes = ref<RouteConfigModel[]>([])
@@ -36,7 +47,7 @@ export const usePermissionStore = defineStore('permission', () => {
    * 请求路由函数
    */
   function generateRoutes() {
-    return new Promise((resolve, reject) => {
+    return new Promise<RouteConfigModel[]>((resolve, reject) => {
       getRouters().then((res) => {
         const sdata = JSON.parse(JSON.stringify(res.data))
         const rdata = JSON.parse(JSON.stringify(res.data))
