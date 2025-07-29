@@ -13,6 +13,19 @@ interface CacheType {
    * 登录用户密码
    */
   LOGIN_INFO: LoginFormModel
+  /**
+   * 侧边栏状态
+   * 0 - 折叠
+   * 1 - 展开
+   */
+  SIDEBAR_STATUS: 0 | 1
+  /**
+   *  屏幕尺寸
+   * - default --- 默认
+   * - large --- 大屏
+   * - small --- 小屏
+   */
+  SIZE: 'default' | 'large' | 'small'
 }
 /**
  * 缓存
