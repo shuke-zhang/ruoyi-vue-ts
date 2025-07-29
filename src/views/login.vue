@@ -192,7 +192,11 @@ onMounted(() => {
               class="cursor-pointer align-middle h-[40px] pl-[12px]"
               @click="getCode"
             > -->
-            <el-image v-loading="imgLoading" :src="codeUrl" class="cursor-pointer align-middle h-[40px] pl-[12px]" @click="getCode" />
+            <el-image v-loading="imgLoading" :src="codeUrl" class="cursor-pointer align-middle h-[40px] w-full pl-[12px]" @click="getCode">
+              <template #error>
+                <div class="cursor-pointer align-middle h-[40px] pl-[12px]" />
+              </template>
+            </el-image>
           </div>
         </div>
       </el-form-item>
