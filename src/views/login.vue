@@ -9,6 +9,7 @@ const route = useRoute()
 const _test = ref('')
 
 const loginRef = useTemplateRef('loginFormRef')
+const imgLoading = ref(false)
 const loginForm = ref<LoginFormModel>({
   username: 'admin',
   password: 'admin123',
@@ -34,6 +35,7 @@ const redirect = ref<string | undefined>(undefined)
  * 获取验证码
  */
 function getCode() {
+  imgLoading.value = true
   getCodeImg().then((res) => {
     captchaEnabled.value
       = res.captchaEnabled === undefined ? true : res.captchaEnabled
@@ -41,6 +43,8 @@ function getCode() {
       codeUrl.value = `data:image/gif;base64,${res.img}`
       loginForm.value.uuid = res.uuid
     }
+  }).finally(() => {
+    imgLoading.value = false
   })
 }
 
@@ -183,11 +187,12 @@ onMounted(() => {
             </template>
           </el-input>
           <div class="w-[33%] h-[40px] float-right">
-            <img
+            <!-- <img
               :src="codeUrl"
               class="cursor-pointer align-middle h-[40px] pl-[12px]"
               @click="getCode"
-            >
+            > -->
+            <el-image v-loading="imgLoading" :src="codeUrl" class="cursor-pointer align-middle h-[40px] pl-[12px]" @click="getCode" />
           </div>
         </div>
       </el-form-item>
