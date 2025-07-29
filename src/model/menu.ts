@@ -1,15 +1,17 @@
+import type { Component } from 'vue'
+
 /**
  * 基础路由类型（支持多级嵌套）
  */
 export interface RouteConfigModel {
   /** 路由名称（唯一标识） */
-  name: string
+  name?: string
   /** 路由路径 */
   path: string
   /** 是否隐藏菜单项（不显示在侧边栏） */
   hidden?: boolean
   /** 组件路径（由前端动态导入） */
-  component?: string
+  component?: string | Component
   /** 重定向地址 */
   redirect?: string
   /** 是否总是显示根路由（即使只有一个子路由） */
@@ -31,4 +33,36 @@ export interface RouteMetaModel {
   noCache?: boolean
   /** 外链地址（如果是外链） */
   link?: string | null
+}
+/**
+ * 动态路由类型（用于权限控制）
+ */
+export interface DynamicRoutesModel {
+  /** 路由路径 */
+  path: string
+  /** 组件 */
+  component: Component
+  /** 是否隐藏 */
+  hidden?: boolean
+  /** 权限 */
+  permissions?: string[]
+  /** 角色列表 */
+  roles?: string[]
+  /** 子路由列表 */
+  children?: DynamicChildrenRoutesModel[]
+}
+export interface DynamicChildrenRoutesModel {
+  /** 路由路径 */
+  path: string
+  /** 组件 */
+  component: Component
+  /** 名称 */
+  name?: string
+  /** 元数据 */
+  meta?: {
+    /** 路由标题 */
+    title: string
+    /** 激活菜单 */
+    activeMenu?: string
+  }
 }
