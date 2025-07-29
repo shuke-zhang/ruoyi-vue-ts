@@ -16,6 +16,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     IconFont: typeof import('./../src/components/icon-font/icon-font.vue')['default']
     Pagination: typeof import('./../src/components/Pagination/Pagination.vue')['default']
+    ParentView: typeof import('./../src/components/ParentView/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

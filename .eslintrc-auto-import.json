@@ -122,6 +122,9 @@
     "encrypt": true,
     "isHttp": true,
     "isEmpty": true,
-    "ElNotification": true
+    "ElNotification": true,
+    "filterDynamicRoutes": true,
+    "loadView": true,
+    "usePermissionStore": true
   }
 }

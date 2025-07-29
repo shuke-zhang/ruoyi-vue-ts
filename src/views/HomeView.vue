@@ -3,6 +3,9 @@ import { getCodeImg } from '@/api/login'
 import router from '@/router'
 import { removeAllPending } from '@/utils/request'
 
+const userStore = useUserStore()
+console.log(userStore, '查看内容')
+
 const codeImg = ref<string>('')
 const codeUUid = ref<string>('')
 const loading = ref(false)

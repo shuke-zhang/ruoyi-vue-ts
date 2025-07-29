@@ -99,7 +99,7 @@ function getCatchForm() {
   console.log(status, 'status缓存状态')
 
   if (status === 'expired') {
-    ElMessage.warning('登录信息已过期，请重新输入')
+    showMessageWarning('登录信息已过期，请重新输入')
     return
   }
   loginForm.value = {
