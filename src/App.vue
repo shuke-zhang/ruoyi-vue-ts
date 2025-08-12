@@ -1,13 +1,12 @@
-<script setup lang="ts">
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
+<script setup>
+onMounted(() => {
+  nextTick(() => {
+    // 初始化主题样式
+    handleThemeStyle(useSettingsStore().theme)
+  })
+})
 </script>
 
 <template>
-  <el-config-provider :locale="zhCn">
-    <RouterView />
-  </el-config-provider>
+  <router-view />
 </template>
-
-<style scoped>
-
-</style>

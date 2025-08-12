@@ -125,6 +125,27 @@
     "ElNotification": true,
     "filterDynamicRoutes": true,
     "loadView": true,
-    "usePermissionStore": true
+    "usePermissionStore": true,
+    "useAppStore": true,
+    "useSettingsStore": true,
+    "useDynamicTitle": true,
+    "getDarkColor": true,
+    "getLightColor": true,
+    "handleThemeStyle": true,
+    "hexToRgb": true,
+    "rgbToHex": true,
+    "addDateRange": true,
+    "blobValidate": true,
+    "getNormalPath": true,
+    "handleTree": true,
+    "mergeRecursive": true,
+    "parseStrEmpty": true,
+    "parseTime": true,
+    "resetForm": true,
+    "selectDictLabel": true,
+    "selectDictLabels": true,
+    "sprintf": true,
+    "tansParams": true,
+    "useTagsViewStore": true
   }
 }

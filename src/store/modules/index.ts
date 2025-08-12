@@ -1,4 +1,5 @@
 export * from './app'
 export * from './permission'
 export * from './settings'
+export * from './tagsView'
 export * from './user'

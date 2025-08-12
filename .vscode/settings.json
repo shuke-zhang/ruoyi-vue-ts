@@ -13,6 +13,7 @@
   "cSpell.words": [
     "Attributify",
     "chromeframe",
+    "datas",
     "encryptor",
     "eslintimport",
     "jsencrypt",
@@ -24,11 +25,13 @@
     "rdata",
     "sdata",
     "shuke",
+    "splitpanes",
     "topbar",
     "tsbuildinfo",
     "unocss",
     "unplugin",
     "Vite",
-    "vue'eslintimport"
+    "vue'eslintimport",
+    "vueuse"
   ]
 }

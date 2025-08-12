@@ -26,7 +26,7 @@ export const useAppStore = defineStore('app', () => {
    * @description: 切换侧边栏状态
    * @param withoutAnimation 是否无动画切换侧边栏
    */
-  function toggleSideBar(withoutAnimation: boolean) {
+  function toggleSideBar(withoutAnimation: boolean = false) {
     if (sidebar.value.hide) {
       return sidebar.value.hide = false
     }

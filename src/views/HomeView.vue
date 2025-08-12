@@ -61,6 +61,7 @@ function handleCancelRequests() {
           UUID: {{ codeUUid }}
         </div>
       </div>
+      <Hamburger />
     </div>
   </div>
 </template>
