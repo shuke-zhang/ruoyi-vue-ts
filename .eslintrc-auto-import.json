@@ -146,6 +146,7 @@
     "selectDictLabels": true,
     "sprintf": true,
     "tansParams": true,
-    "useTagsViewStore": true
+    "useTagsViewStore": true,
+    "isPathMatch": true
   }
 }

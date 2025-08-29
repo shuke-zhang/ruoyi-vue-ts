@@ -49,6 +49,7 @@ declare global {
   const inject: typeof import('vue')['inject']
   const isEmpty: typeof import('../src/utils/helpers/validate')['isEmpty']
   const isHttp: typeof import('../src/utils/helpers/validate')['isHttp']
+  const isPathMatch: typeof import('../src/utils/helpers/validate')['isPathMatch']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
